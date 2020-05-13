@@ -2,13 +2,16 @@ import java.util.*
 
 fun main(args: Array<String>) {
 
- queryDayOfWeek("Kotlin")
+    print(
+        "Good ${if (args[1].toInt() < 12)  "morning" else "night"} ${args[0]}, "
+    )
+
+    queryDayOfWeek(args[0])
 
 }
 
 fun queryDayOfWeek(name: String) {
 
-    print("Hello ${name}, ")
     println("What day is today?")
     println("Today is " + dayOfWeek())
 
