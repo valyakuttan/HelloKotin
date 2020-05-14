@@ -1,22 +1,22 @@
 fun main(args: Array<String>) {
-    println(whatShouldIDoToday("happy", "sunny"))
-    println(whatShouldIDoToday("sad"))
-    print("How do you feel?")
-    println(whatShouldIDoToday(readLine()!!))
-}
 
-fun isVeryHot (temperature: Int) = temperature > 35
+    val xs = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
-fun isSadRainyCold (mood: String, weather: String, temperature: Int) =
-    mood == "sad" && weather == "rainy" && temperature == 0
+    // eagerly compute filtered list from the input
+    val eagerList = xs.filter { it % 3 == 1 }
 
-fun isHappySunny (mood: String, weather: String) = mood == "happy" && weather == "sunny"
+    // lazy computation of filtered list, compute the element
+    // only when the element is accessed.
+    val lasyList = xs.asSequence().filter { it % 3 == 1 }
 
-fun whatShouldIDoToday(mood: String, weather: String = "sunny", temperature: Int = 24) : String {
-    return when {
-        isVeryHot(temperature) -> "go swimming"
-        isSadRainyCold(mood, weather, temperature) -> "stay in bed"
-        isHappySunny(mood, weather) -> "go for a walk"
-        else -> "Stay home and read."
-    }
+    println("Eager list")
+    println(eagerList)
+
+    println("Lazy list")
+    println(lasyList)
+
+    println("For Lazy list we must access element one by one.")
+
+    println(lasyList.toList())
+
 }
