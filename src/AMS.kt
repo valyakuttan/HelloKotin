@@ -1,22 +1,39 @@
+import java.util.*
+
 fun main(args: Array<String>) {
 
-    val xs = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    for (i in 1..10) println("$random1, ${random2()}")
 
-    // eagerly compute filtered list from the input
-    val eagerList = xs.filter { it % 3 == 1 }
+    // Initialize with 10 random Int values
+    val xs = List(10) { Random().nextInt(100)}
+    println(xs)
+}
 
-    // lazy computation of filtered list, compute the element
-    // only when the element is accessed.
-    val lasyList = xs.asSequence().filter { it % 3 == 1 }
+val random1: Int = Random().nextInt(10)
+val random2: () -> Int = {Random().nextInt(10)}
 
-    println("Eager list")
-    println(eagerList)
+var dirty = 20
 
-    println("Lazy list")
-    println(lasyList)
+val waterFilter: (Int) -> Int = {dirty -> dirty / 2}
 
-    println("For Lazy list we must access element one by one.")
+fun feedFish(dirty: Int) = dirty + 10
 
-    println(lasyList.toList())
+fun updateDirty(dirty: Int, operation: (Int) -> Int): Int {
+    operation(dirty)
 
+    return dirty
+}
+
+fun dirtyProcessor() {
+    dirty = updateDirty(dirty, waterFilter)
+
+    // passing a named function requires ::, to indicate that
+    // we are passing a reference
+    dirty = updateDirty(dirty, ::feedFish)
+
+    // Last parameter call syntax, the last parameter can be passed
+    // inside a curly braces
+    dirty = updateDirty(dirty) {
+        ditry -> dirty * 2
+    }
 }
