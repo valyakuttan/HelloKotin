@@ -1,33 +1,22 @@
-import java.util.*
-
 fun main(args: Array<String>) {
-    feedFish()
+    println(whatShouldIDoToday("happy", "sunny"))
+    println(whatShouldIDoToday("sad"))
+    print("How do you feel?")
+    println(whatShouldIDoToday(readLine()!!))
 }
 
-fun shouldChangeWater(
-    day: String,
-    dirty: Int = 20,
-    temperature: Int = 22
-): Boolean {
-    return true
-}
+fun isVeryHot (temperature: Int) = temperature > 35
 
-fun feedFish() {
-    val day = randomDay()
-    val food = fishFood(day)
-    println("Today is $day and the fish eat $food")
+fun isSadRainyCold (mood: String, weather: String, temperature: Int) =
+    mood == "sad" && weather == "rainy" && temperature == 0
 
-    if (shouldChangeWater(day)) println("Change the water today.")
-}
+fun isHappySunny (mood: String, weather: String) = mood == "happy" && weather == "sunny"
 
-fun randomDay(): String {
-    val week = listOf("Monday", "Tuesday", "Wednesday",
-    "Thursday", "Friday", "Saturday")
-
-    return week[Random().nextInt(week.size)]
-}
-
-fun fishFood(day: String) = when (day) {
-    "Monday" -> "flakes"
-    else -> "pellets"
+fun whatShouldIDoToday(mood: String, weather: String = "sunny", temperature: Int = 24) : String {
+    return when {
+        isVeryHot(temperature) -> "go swimming"
+        isSadRainyCold(mood, weather, temperature) -> "stay in bed"
+        isHappySunny(mood, weather) -> "go for a walk"
+        else -> "Stay home and read."
+    }
 }
