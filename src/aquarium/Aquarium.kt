@@ -1,13 +1,17 @@
 package aquarium
 
-class Aquarium(var width: Int = 20, var height: Int = 40, var length: Int = 100) {
+import kotlin.math.PI
+
+open class Aquarium(var width: Int = 20,
+               var height: Int = 40,
+               var length: Int = 100) {
 
     //getter & setters for a property
-    var volume: Int
-    get() {return  width * height * length / 1000}
-    set(value) { height = value * 1000 / (width * length)}
+    open var volume: Int
+        get() {return  width * height * length / 1000}
+        set(value) { height = value * 1000 / (width * length)}
 
-    var water = volume * 0.9
+    open var water = volume * 0.9
 
     // Another constructor for the Aquarium Class
     constructor(numberOfFish: Int) : this() {
@@ -17,4 +21,15 @@ class Aquarium(var width: Int = 20, var height: Int = 40, var length: Int = 100)
 
         height = (tank /(length * width)).toInt()
     }
+}
+
+class TowerTank(): Aquarium() {
+
+    override var water = volume * 0.8
+
+    override var volume: Int
+        get() = (width * height * length * PI / 1000).toInt()
+        set(value) {
+            height = (value * 1000) / (width * length * PI).toInt()
+        }
 }
