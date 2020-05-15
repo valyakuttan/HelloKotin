@@ -20,6 +20,7 @@ fun makeDecorations() {
 
     // decomposition of data class
     val (rock, wood, diver ) = d5
+    val (_, wood2, _) = d5
     println("$rock, $wood, $diver")
 }
 

@@ -5,6 +5,18 @@ fun main(args: Array<String>) {
     val curry = Curry("very spicy")
     println("Curry has a hotness of ${curry.heat}")
     println("Curry has a color of ${curry.color}")
+
+    val spices = commonSpices + listOf(curry, Salt)
+    for (spice in spices)
+        useSpice(spice)
+
+}
+
+// sealed class can be used in when statement
+fun useSpice(spice: Spice) = when (spice) {
+    is Curry -> println("Curry")
+    is Salt  -> println("Salt")
+    is CommonSpice -> println(spice.name)
 }
 
 class Curry(spiciness: String): Spice("Curry",
@@ -17,15 +29,22 @@ class Curry(spiciness: String): Spice("Curry",
 }
 
 object YellowColor: SpiceColor {
-    override val color: String
-        get() = "yellow"
+    override val color: Color
+        get() = Color.YELLOW
 
 }
 
 interface SpiceColor {
-    val color: String
+    val color: Color
 }
 
+enum class Color(val rgb: Int) {
+    RED(0xFF0000),
+    GREEN(0x00FF00),
+    BLUE(0x0000FF),
+    YELLOW(0xFFFF00),
+    WHITE(0xFFFFFF);
+}
 interface Grinder {
 
     fun grind() {
@@ -33,7 +52,10 @@ interface Grinder {
     }
 }
 
-abstract class Spice(val name: String, val spiciness: String = "mild"): SpiceColor {
+sealed class Spice(
+    val name: String,
+    val spiciness: String = "mild"
+): SpiceColor {
 
     val heat: Int
         get() {
@@ -62,8 +84,18 @@ class CommonSpice(
 
 }
 
-fun makeSalt() = CommonSpice("Salt")
+object Salt: Spice("Salt"),
+    SpiceColor by WhiteColor{
+    override fun prepareSpice() {
+        println("make salt")
+    }
+}
 
+object  WhiteColor : SpiceColor {
+    override val color: Color
+        get() = Color.WHITE
+
+}
 val commonSpices = listOf(
     CommonSpice("curry", "mild"),
     CommonSpice("pepper", "medium"),
