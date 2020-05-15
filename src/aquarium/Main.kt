@@ -1,7 +1,34 @@
 package aquarium
 
 fun main(args: Array<String>) {
+
     buildAquarium()
+
+    val aquariumFishes = mkFishes()
+    for (fish in aquariumFishes) {
+        feedFish(fish)
+    }
+}
+
+// restrict a function to those objects which
+// implements a given interface
+fun feedFish(fish: FishAction) {
+    fish.eat()
+}
+
+fun mkFishes(): List<FishAction> {
+
+    val shark = Shark()
+    val pleco = Plecostomus()
+
+    println("Shark: ${shark.color}\n" +
+            "Pleco: ${pleco.color}")
+
+    shark.eat()
+    pleco.eat()
+
+    return listOf(shark, pleco)
+
 }
 
 fun buildAquarium() {
@@ -33,4 +60,5 @@ fun buildAquarium() {
             "Height: ${smallAquarium.height}")
 
     println("Volume: ${smallAquarium.volume} liters")
+
 }
