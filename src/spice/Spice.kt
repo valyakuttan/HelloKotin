@@ -1,6 +1,39 @@
 package spice
 
-class Spice(val name: String, val spiciness: String = "mild") {
+fun main(args: Array<String>) {
+
+    val curry = Curry("very spicy")
+    println("Curry has a hotness of ${curry.heat}")
+    println("Curry has a color of ${curry.color}")
+}
+
+class Curry(spiciness: String): Spice("Curry",
+    spiciness), Grinder, SpiceColor by YellowColor {
+    override fun prepareSpice() {
+        println("Preparing Curry")
+        grind()
+    }
+
+}
+
+object YellowColor: SpiceColor {
+    override val color: String
+        get() = "yellow"
+
+}
+
+interface SpiceColor {
+    val color: String
+}
+
+interface Grinder {
+
+    fun grind() {
+        println("Grinding")
+    }
+}
+
+abstract class Spice(val name: String, val spiciness: String = "mild"): SpiceColor {
 
     val heat: Int
         get() {
@@ -14,16 +47,29 @@ class Spice(val name: String, val spiciness: String = "mild") {
             }
         }
 
+    abstract fun prepareSpice()
 }
 
-fun makeSalt() = Spice("Salt")
+class CommonSpice(
+    name: String,
+    spiciness: String = "mild",
+    color: SpiceColor = YellowColor,
+): SpiceColor by color, Spice(name, spiciness){
+
+    override fun prepareSpice() {
+        println("Spice prepared")
+    }
+
+}
+
+fun makeSalt() = CommonSpice("Salt")
 
 val commonSpices = listOf(
-    Spice("curry", "mild"),
-    Spice("pepper", "medium"),
-    Spice("cayenne", "spicy"),
-    Spice("ginger", "mild"),
-    Spice("red curry", "medium"),
-    Spice("green curry", "mild"),
-    Spice("hot pepper", "extremely spicy")
+    CommonSpice("curry", "mild"),
+    CommonSpice("pepper", "medium"),
+    CommonSpice("cayenne", "spicy"),
+    CommonSpice("ginger", "mild"),
+    CommonSpice("red curry", "medium"),
+    CommonSpice("green curry", "mild"),
+    CommonSpice("hot pepper", "extremely spicy")
 )
