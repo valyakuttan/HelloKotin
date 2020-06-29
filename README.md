@@ -1,2 +1,2 @@
-# HelloKotin
+# HelloKotlin
 kotlin intros
